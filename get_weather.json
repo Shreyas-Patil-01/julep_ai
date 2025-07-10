@@ -1,0 +1,22 @@
+{
+    "name": "GetWeather",
+    "description": "Fetch today's weather for a city and recommend indoor or outdoor dining",
+    "type": "http",
+    "method": "GET",
+    "url": "https://api.openweathermap.org/data/2.5/weather?q={{city}}&appid={{OPENWEATHER_API_KEY}}&units=metric",
+    "inputs": {
+      "city": {
+        "type": "string",
+        "description": "City name to get the weather for"
+      }
+    },
+    "headers": {},
+    "response_mapping": {
+      "condition": "$.weather[0].main",
+      "temperature": "$.main.temp"
+    },
+    "output_transformation": {
+      "dining_type": "{{ 'outdoor' if condition in ['Clear', 'Clouds'] and (15 <= temperature <= 30) else 'indoor' }}"
+    }
+  }
+  
